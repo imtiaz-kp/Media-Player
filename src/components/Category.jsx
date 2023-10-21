@@ -54,6 +54,7 @@ function Category() {
     useEffect(()=>{
         handleGetCategory()
     },[])
+    
     const dragOver=(e)=>{
         e.preventDefault()
     }
@@ -81,7 +82,7 @@ function Category() {
 
     </div>
     {
-       allCategory.length>0?allCategory?.map(item=>(
+       allCategory?.length>0?allCategory?.map(item=>(
             <div className="border rounded p-3 mt-3 me-5 mb-3 align-items-center  " droppable onDragOver={(e)=>dragOver(e)} onDrop={(e)=>videoDropped(e,item?.id)} >
                 <div className='d-flex justify-content-between align-items-center' >
                     <h6>{item?.categoryName}</h6>
@@ -92,7 +93,7 @@ function Category() {
                      
                         <Row>
                             {
-                            item?.allVideos.map(card=>(
+                            item?.allVideos?.map(card=>(
                                 <Col sm={12}>
                                 <VideoCard displayData={card} insideCtegory={true}/>
                                 </Col>
