@@ -12,6 +12,15 @@ function Category() {
   const [allCategory, setAllCategory] = useState([]);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const handilCategory = async () => {
     if (categoryName) {
@@ -54,7 +63,7 @@ function Category() {
     console.log("Video Card id" + videoCardId);
     //get details of video to be dropped 
     const { data } = await getAVideo(videoCardId);
-    console.log(data);
+    
     //get details category 
     const selectedCategory = allCategory.find(item => item.id === categoryId);
     selectedCategory.allVideos.push(data);
@@ -68,20 +77,23 @@ function Category() {
 
   return (
     <>
-      <div className="d-grid me-5">
-        <button onClick={handleShow} className='btn btn-info'>Add Now Category</button>
+      <div className="text-center  me-5">
+      <div><button onClick={handleShow} className='btn btn-info w-50'  onMouseOver={handleHover}
+        onMouseLeave={handleMouseLeave}>Add Now Category</button>
+         {isHovered && <p className='mt-3'>Drag and drop videos to category  </p>}
+    </div>
       </div>
 
       {allCategory?.length > 0 ? allCategory?.map(item => (
-        <div className="border rounded p-3 mt-3 me-5 mb-3 align-items-center" droppable onDragOver={(e) => dragOver(e)} onDrop={(e) => videoDropped(e, item?.id)}>
-          <div className='d-flex justify-content-between align-items-center'>
-            <h6>{item?.categoryName}</h6>
-            <button className='btn' onClick={() => handleDeleteCategory(item?.id)}><i className='fa-solid fa-trash text-danger'></i> </button>
+        <div className="border rounded p-3 mt-3 me-5 mb-3 w-100" droppable onDragOver={(e) => dragOver(e)} onDrop={(e) => videoDropped(e, item?.id)}>
+          <div className='d-flex justify-content-between align-items-center mb-2'>
+            <h6 className='mt-2 me-2'>{item?.categoryName}</h6>
+            <button className='btn' onClick={() => handleDeleteCategory(item?.id)}><i className='fa-solid fa-trash text-danger mb-2'></i> </button>
           </div>
           {item?.allVideos &&
-            <Row>
+            <Row className='d-flex' >
               {item?.allVideos?.map(card => (
-                <Col sm={12} key={card.id}>
+                <Col sm={12} lg={2} key={card.id}>
                   <VideoCard displayData={card} insideCtegory={true} />
                 </Col>
               ))}
